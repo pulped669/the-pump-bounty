@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pump Bounty - Pirate Meme Coin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=MedievalSharp&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --parchment: #f4e4bc;
+            --ink: #2c1810;
+            --gold: #ffd700;
+            --ocean: #0c141f;
+        }
+
+        body {
+            background-color: var(--ocean);
+            color: var(--ink);
+            font-family: 'MedievalSharp', cursive;
+            margin: 0;
+            overflow-x: hidden;
+            cursor: url('https://cdn-icons-png.flaticon.com/32/705/705972.png'), auto;
+        }
+
+        .parchment-bg {
+            background: radial-gradient(circle, var(--parchment) 0%, #e0c58b 100%);
+            border: 20px solid transparent;
+            border-image: url('https://www.transparenttextures.com/patterns/aged-paper.png') 30 round;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        .pirate-title {
+            font-family: 'Pirata One', cursive;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100px;
+            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x;
+            animation: wave 10s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .bounty-card {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-image: url('https://www.transparenttextures.com/patterns/cardboard.png');
+        }
+
+        .bounty-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .ship-container {
+            position: fixed;
+            bottom: 50px;
+            right: -200px;
+            z-index: 50;
+            transition: right 20s linear;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="wave" style="animation-duration: 7s; height: 120px;"></div>
+        <div class="wave" style="animation-duration: 12s; height: 80px; opacity: 0.5;"></div>
+    </div>
+
+    <div class="relative z-10 p-8 max-w-6xl mx-auto min-h-screen flex flex-col items-center justify-center">
+        
+        <header class="text-center mb-16 floating">
+            <h1 class="pirate-title text-8xl text-gold mb-4 tracking-wider">THE PUMP BOUNTY</h1>
+            <p class="text-2xl text-yellow-100 font-bold opacity-80">SAIL THE DEFI SEAS. CLAIM THE TREASURE.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
+            <!-- TREASURE POOL -->
+            <div class="parchment-bg rounded-lg p-12 flex flex-col items-center justify-center text-center transform -rotate-1">
+                <h2 class="pirate-title text-5xl mb-6">BOUNTY POOL</h2>
+                <div class="text-7xl font-bold text-red-900 mb-4" id="pool-counter">0</div>
+                <p class="text-xl italic">Gold Doubloons ($BOUNTY) Locked</p>
+            </div>
+
+            <!-- QUEST BOARD -->
+            <div class="space-y-6">
+                <h2 class="pirate-title text-5xl text-gold text-center mb-8">QUEST BOARD</h2>
+                
+                <div class="bounty-card bg-amber-100 p-6 rounded border-4 border-amber-900 flex justify-between items-center cursor-pointer quest-item">
+                    <div>
+                        <h3 class="text-2xl font-bold">RAID TWITTER</h3>
+                        <p class="text-sm opacity-70">Spread the word on the X seas</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-bold text-amber-900">500 $B</span>
+                        <button class="bg-red-800 text-white px-4 py-1 rounded hover:bg-red-700 transition claim-btn">CLAIM</button>
+                    </div>
+                </div>
+
+                <div class="bounty-card bg-amber-100 p-6 rounded border-4 border-amber-900 flex justify-between items-center cursor-pointer quest-item">
+                    <div>
+                        <h3 class="text-2xl font-bold">SHILL THE DEEP</h3>
+                        <p class="text-sm opacity-70">Post in 5 Telegram groups</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-bold text-amber-900">1200 $B</span>
+                        <button class="bg-red-800 text-white px-4 py-1 rounded hover:bg-red-700 transition claim-btn">CLAIM</button>
+                    </div>
+                </div>
+
+                <div class="bounty-card bg-amber-100 p-6 rounded border-4 border-amber-900 flex justify-between items-center cursor-pointer quest-item">
+                    <div>
+                        <h3 class="text-2xl font-bold">MAP THE CHART</h3>
+                        <p class="text-sm opacity-70">Upvote on DexTools</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-bold text-amber-900">300 $B</span>
+                        <button class="bg-red-800 text-white px-4 py-1 rounded hover:bg-red-700 transition claim-btn">CLAIM</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-20 text-yellow-100 text-center opacity-60">
+            <p>&copy; 1726 - THE PUMP BOUNTY. NO QUARTER GIVEN.</p>
+        </footer>
+    </div>
+
+    <div class="ship-container" id="pirate-ship">
+        <img src="https://cdn-icons-png.flaticon.com/512/2854/2854611.png" width="150" alt="Pirate Ship">
+    </div>
+
+    <script>
+        // Pool Counter Animation
+        const targetValue = 1250430;
+        const counterEl = document.getElementById('pool-counter');
+        let currentVal = 0;
+
+        const updateCounter = () => {
+            const increment = Math.ceil((targetValue - currentVal) / 20);
+            currentVal += increment;
+            counterEl.textContent = currentVal.toLocaleString();
+            if(currentVal < targetValue) requestAnimationFrame(updateCounter);
+        };
+        
+        setTimeout(updateCounter, 500);
+
+        // Claim Button Animation
+        document.querySelectorAll('.claim-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ffd700', '#ffffff', '#8b0000']
+                });
+                btn.textContent = 'CLAIMED!';
+                btn.classList.replace('bg-red-800', 'bg-green-800');
+                btn.disabled = true;
+            });
+        });
+
+        // Sailing Ship Animation
+        const ship = document.getElementById('pirate-ship');
+        const sail = () => {
+            gsap.to(ship, {
+                x: -window.innerWidth - 400,
+                duration: 25,
+                ease: "none",
+                onComplete: () => {
+                    gsap.set(ship, { x: 0 });
+                    sail();
+                }
+            });
+        };
+        sail();
+
+        // Parallax Mouse Movement
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            gsap.to('.parchment-bg', { rotationY: x, rotationX: -y, duration: 0.5 });
+        });
+    </script>
+</body>
+</html>
